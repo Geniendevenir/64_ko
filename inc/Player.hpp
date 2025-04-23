@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:54:46 by allan             #+#    #+#             */
-/*   Updated: 2025/04/23 00:51:26 by allan            ###   ########.fr       */
+/*   Updated: 2025/04/23 19:53:10 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 class Player {
 	public:
-		c_vector pixels;
 		GLuint tex;
 		
 		Player();
@@ -33,25 +32,35 @@ class Player {
 	
 		//Getter
 		std::string getName(void) const;
-		int getPosX(void) const;
-		int getPosY(void) const;
-		//c_vector getPixels(void) const;
+		float getPosX(void) const;
+		float getPosY(void) const;
+		float getVelY(void) const;
+		float getGravity(void) const;
+		float getMoveSpeed(void) const;
+		bool isOnGround();
 		
 		//Setter
-		void setPosX(int x);
-		void setPosY(int y);
-		//void setPixels(c_vector pixels);
+		void setPosX(float const &x);
+		void setPosY(float const &y);
+		void setVelY(float const &y);
+		void setOnGround(bool const &y);
 
 		//Action
 		void mooveUp();
 		void mooveDown();
 		void mooveRight();
 		void mooveLeft();
+		void addGravity();
+		void addVelocity();
 
 	private:
 		std::string _name;
-		int _posX;
-		int _posY;
+		float _posX;
+		float _posY;
+		float _velY;
+		const float _gravity;
+		const float _moveSpeed;
+		bool _onGround;
 };
 
 std::ostream &operator<<(std::ostream &o, const Player &i);

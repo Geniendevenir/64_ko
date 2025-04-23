@@ -5,7 +5,7 @@ OBJ_DIR = obj/
 
 # Compiler and Flag
 CXX = g++
-CXXFLAGS = -Os -Wall -Werror -Wextra -std=c++11 -I/usr/local/include -I$(INC) 
+CXXFLAGS = -Os -Wall -Werror -Wextra -I/usr/local/include -I$(INC) 
 LIBS = -L/usr/local/lib -lGLEW -lglfw -lGL
 NAME = tiny_game 
 
@@ -15,8 +15,10 @@ SRCS = $(SRC_DIR)main.cpp \
 		$(SRC_DIR)Player.cpp \
 		$(SRC_DIR)windows_managment.cpp \
 		$(SRC_DIR)texture.cpp \
-		$(SRC_DIR)render.cpp \
-		$(SRC_DIR)error_managment.cpp 
+		$(SRC_DIR)game_loop.cpp \
+		$(SRC_DIR)error_managment.cpp \
+		$(SRC_DIR)input.cpp \
+		$(SRC_DIR)global.cpp
 
 OBJS = $(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRCS))
 

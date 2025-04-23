@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:59:20 by allan             #+#    #+#             */
-/*   Updated: 2025/04/23 00:53:42 by allan            ###   ########.fr       */
+/*   Updated: 2025/04/23 19:53:26 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 //				 CONSTRUCTOR/DESTRUCTOR					//
 //////////////////////////////////////////////////////////
 
-Player::Player() : pixels(WIDTH * HEIGHT * 4), tex(0), _name("Player"), _posX(WIDTH / 2), _posY(HEIGHT / 2) {
+Player::Player() : tex(0), _name("Player"), _posX(globals::WIDTH / 2), _posY(globals::GROUND_Y + 1), _velY(0.0f), _gravity(0.5f), _moveSpeed(2.0f), _onGround(true){
 	return ;
 }
 
-Player::Player(std::string name) : pixels(WIDTH * HEIGHT * 4), tex(0), _name(name), _posX(WIDTH / 2), _posY(HEIGHT / 2) {
+Player::Player(std::string name) : tex(0), _name(name), _posX(globals::WIDTH / 2), _posY(globals::GROUND_Y + 1), _velY(0.0f), _gravity(0.5f), _moveSpeed(2.0f), _onGround(true) {
 	return ;
 }
 
-Player::Player(const Player &src) {
+Player::Player(const Player &src) : _gravity(0.5f), _moveSpeed(2.0f) {
 	*this = src;
 	return ;
 }
@@ -41,11 +41,12 @@ Player::~Player() {
 
 Player& Player::operator=(const Player &rhs) {
 	if (this != &rhs) {
+		tex = rhs.tex;
 		_name = rhs._name;
 		_posX = rhs._posX;
 		_posY = rhs._posY;
-		pixels = rhs.pixels;
-		tex = rhs.tex;
+		_velY = rhs._velY;
+		_onGround = rhs._onGround;
 	}
 	return *this;
 }
@@ -68,31 +69,45 @@ std::string Player::getName(void) const {
 	return _name;
 }
 
-int Player::getPosX(void) const {
+float Player::getPosX(void) const {
 	return _posX;
 }
 
-int Player::getPosY(void) const {
+float Player::getPosY(void) const {
 	return _posY;
 }
 
-/* c_vector Player::getPixels(void) const {
-	return _pixels;
-} */
+float Player::getVelY(void) const {
+	return _velY;
+}
 
+float Player::getGravity(void) const {
+	return _gravity;
+}
 
-void Player::setPosX(int x) {
+float Player::getMoveSpeed(void) const {
+	return _moveSpeed;
+}
+
+bool Player::isOnGround() {
+	return _onGround;
+}
+
+void Player::setPosX(float const &x) {
 	_posX = x;
 }
 
-void Player::setPosY(int y) {
+void Player::setPosY(float const &y) {
 	_posY = y;
 }
 
-/* void Player::setPixels(c_vector pixels) {
-	_pixels = pixels;
-} */
+void Player::setVelY(float const &y) {
+	_velY = y;
+}
 
+void Player::setOnGround(bool const &y) {
+	_onGround = y;
+}
 
 //////////////////////////////////////////////////////////
 //						 ACTION							//
@@ -108,9 +123,17 @@ void Player::mooveDown() {
 }
 
 void Player::mooveRight() {
-	_posX += 2;
+	_posX += _moveSpeed;
 }
 
 void Player::mooveLeft() {
-	_posX -= 2;
+	_posX -= _moveSpeed;
+}
+
+void Player::addGravity() {
+	_velY += _gravity;
+}
+
+void Player::addVelocity() {
+	_posY -= _velY;
 }

@@ -18,13 +18,14 @@ int main() {
 	
 	if (window_init(&window) == ERROR)
 		return ERROR;	
-	
+
+	c_vector pixels (globals::WIDTH * globals::HEIGHT * 4);
 	Player cube("pacman");
-	draw_player(cube);
+	draw_player(cube, pixels);
 
 	gl_texture_setup(cube);
 	
-	if (game_loop(&window, cube) == ERROR) {
+	if (game_loop(&window, cube, pixels) == ERROR) {
 		clean_window(&window);
 		return ERROR;
 	}

@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 23:02:41 by allan             #+#    #+#             */
-/*   Updated: 2025/04/23 01:12:45 by allan            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:46:28 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ void clean_window(GLFWwindow** window);
 int	window_init(GLFWwindow** window);
 
 //texture
-void draw_player(Player &player);
+void draw_player(Player &player, c_vector &pixels);
+void draw_floor(c_vector &pixels);
 void gl_texture_setup(Player &player);
 
 //render
-int game_loop(GLFWwindow** window, Player &player);
+int game_loop(GLFWwindow** window, Player &player, c_vector &pixels);
+
+//input
+void handle_input(GLFWwindow** window, Player &player);
 
 #define ERROR -1
 #define SUCCESS 0
