@@ -1,17 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_managment.cpp                                :+:      :+:    :+:   */
+/*   Vector.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 21:20:09 by allan             #+#    #+#             */
-/*   Updated: 2025/04/23 00:54:35 by allan            ###   ########.fr       */
+/*   Created: 2025/04/26 13:49:07 by allan             #+#    #+#             */
+/*   Updated: 2025/04/26 13:53:18 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tiny_game.hpp"
+#include "RobotArm.hpp"
 
-void error_callback(int error, const char* description) {
-	std::cerr << "Error : " << error << ": "<< description << std::endl;
+
+float Vec2::distance(Vec2 a, Vec2 b) {
+	float dx = a.x - b.x;
+	float dy = a.y - b.y;
+	
+	return sqrt(dx * dx + dy * dy);
 }

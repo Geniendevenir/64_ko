@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global.hpp                                         :+:      :+:    :+:   */
+/*   Globals.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 23:56:42 by allan             #+#    #+#             */
-/*   Updated: 2025/04/23 19:14:38 by allan            ###   ########.fr       */
+/*   Created: 2025/04/25 20:29:36 by allan             #+#    #+#             */
+/*   Updated: 2025/04/25 20:33:41 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GLOBAL_HPP
-#define GLOBAL_HPP
+#include "Globals.hpp"
 
-#include <vector>
-
-namespace globals {
-	extern const int WIDTH;
-	extern const int HEIGHT;
-	extern const int PLAYER_SIZE;
-	extern const int GROUND_Y; 
+namespace globals{
+	const int WIDTH = 800;
+	const int HEIGHT = 600;
+	const int DOT_SIZE = 20;
+	const float DOT_DIST = 100;
+	const int DOT_NBR = 3;
 }
-
-typedef std::vector<unsigned char> c_vector;
-
-
-#endif
