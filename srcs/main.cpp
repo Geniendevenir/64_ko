@@ -58,7 +58,8 @@ int main() {
 	Stage stage;
 
 	std::vector<Star> stars;
-	initStars(300, stars);
+	std::vector<Star> stars_reflect;
+	initStars(300, stars, stars_reflect);
 	const double frameDuration = 1.0 / 60.0;
 	double lastTime = glfwGetTime();
 
@@ -100,19 +101,23 @@ int main() {
 		
 		//Print
 		draw_background(backgroundPixels);
+		draw_moonglow(backgroundPixels.data(), {490.0f, 345.0f}, 30.0f, 1.0f);
+		drawCircle(backgroundPixels.data(), {490.0f, 345.0f}, 15.0f, {255, 255, 255, 210}); 
 		draw_stars(stars, backgroundPixels.data(), star_scroll);
 		drawRectangle(backgroundPixels.data(),
-			{0 , static_cast<float>(globals::GROUND_HEIGHT)},
-			{static_cast<float>(globals::WIDTH), static_cast<float>(globals::GROUND_HEIGHT + 50)},
-			{10, 10, 10, 255}); //Background floor
+		{0 , static_cast<float>(globals::GROUND_HEIGHT)},
+		{static_cast<float>(globals::WIDTH), static_cast<float>(globals::GROUND_HEIGHT + 50)},
+		{30, 30, 30, 255}); //Background floor
 		draw_mountains(backgroundPixels.data(), cube.scroll_x);
 		draw_floor(backgroundPixels);
+		draw_stars(stars_reflect, backgroundPixels.data(), star_scroll);
 		draw_pillars(backgroundPixels, cube.scroll_x);
 
 
 		//stage.printStage(stagePixels.data());	
 		
 		//Monster
+		monster.printMonsterReflection(window, monsterPixels.data());
 		monster.printMonster(window, monsterPixels.data(), {cube.getPosX(), cube.getPosY()});
 		
 		draw_crosshair(crossPixels.data(), mx, my);
@@ -120,6 +125,7 @@ int main() {
 		draw_number(crossPixels.data(), globals::WIDTH, globals::HEIGHT, my, 50, globals::HEIGHT - 10, {255, 0, 0, 255});
 		
 		draw_player(playerPixels.data(), cube);
+		draw_player_reflection(playerPixels.data(), cube);
 
 
         // Upload to GPU

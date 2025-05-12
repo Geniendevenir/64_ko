@@ -26,19 +26,57 @@ void draw_background(c_vector &pixels) {
 	return ; 
 }
 
-void initStars(int count, std::vector<Star> &stars) {
-	//int top_start = globals::HEIGHT * 2 / 3;
-	//int top_end = globals::HEIGHT;
+void initStars(int count, std::vector<Star> &stars ,std::vector<Star> &stars_reflect) {
 	stars.clear();
 	for (int i = 0; i < count; ++i) {
 		Star s;
 		s.x = static_cast<float>(rand() % 4000); // world width
-		//s.y = static_cast<float>(top_start + rand() % (top_end - top_start)); //Version A: upper half of screen
-		s.y = static_cast<float>(rand() % globals::HEIGHT);// Version B: all the screen
+		s.y = static_cast<float>(rand() % globals::HEIGHT);//All the screen
 		s.parallax = 0.1f + (rand() % 100) / 300.0f; // range 0.1–0.4
 		stars.push_back(s);
 	}
+	
+	int top_start = globals::GROUND_HEIGHT - 10;
+	int top_end = globals::HEIGHT;
+	stars_reflect.clear();
+	for (int i = 0; i < count; ++i) {
+		Star s2;
+		s2.x = static_cast<float>(rand() % 4000); // world width
+		s2.y = static_cast<float>(top_start - rand() % (top_end + top_start)); //Version A: upper half of screen
+		s2.parallax = 0.1f + (rand() % 100) / 300.0f; // range 0.1–0.4
+		stars_reflect.push_back(s2);
+	}
 }
+
+void draw_moon(c_vector &pixels) {
+	Vec2 moon_start = {480.0f, 330.0f};
+	Vec2 moon_end = {510.0f, 360.0f};
+	//Vec2 moonlight_start = {moon_start.x - 5.0f, moon_start.y - 5.0f};
+	//Vec2 moonlight_end = {moon_end.x + 5.0f, moon_end.y + 5.0f};
+	//drawRectangle(pixels.data(), moonlight_start, moonlight_end, {255, 255, 255, 200});
+	drawRectangle(pixels.data(), moon_start, moon_end, {255, 255, 255, 255});
+}
+
+void draw_moonglow(uint8_t* pixels, Vec2 center, float radius, float intensity) {
+	for (int y = 0; y < globals::HEIGHT; ++y) {
+		for (int x = 0; x < globals::WIDTH; ++x) {
+			float dx = x - center.x;
+			float dy = y - center.y;
+			float dist = std::sqrt(dx * dx + dy * dy);
+
+			if (dist < radius) {
+				float glow = (1.0f - dist / radius) * intensity; // fade out
+				int i = (y * globals::WIDTH + x) * 4;
+
+				pixels[i + 0] = std::min(255, pixels[i + 0] + static_cast<int>(glow * 255));
+				pixels[i + 1] = std::min(255, pixels[i + 1] + static_cast<int>(glow * 255));
+				pixels[i + 2] = std::min(255, pixels[i + 2] + static_cast<int>(glow * 255));
+				// alpha remains unchanged
+			}
+		}
+	}
+}
+
 
 void draw_stars(std::vector<Star>& stars, uint8_t* pixels, float scroll_x) {
 	for (const Star& s : stars) {
@@ -57,34 +95,6 @@ void draw_stars(std::vector<Star>& stars, uint8_t* pixels, float scroll_x) {
 	}
 }
 
-/* void draw_mountains(uint8_t* pixels, float scroll_x) {
-	const float parallax = 0.1f;
-	const int base_y = globals::GROUND_HEIGHT;  // where mountains start
-
-	float mountain_scroll = scroll_x * parallax;
-
-	const int peak_height = 150;
-	const int mountain_width = 250;
-
-	float screen_x = (globals::WIDTH / 4) - mountain_scroll;
-	int x0 = static_cast<int>(screen_x);
-	int x1 = x0 + mountain_width;
-
-	int peak_x = x0 + mountain_width / 2;
-	int peak_y = base_y + peak_height;
-
-	Vec2 base_left = {static_cast<float>(x0), static_cast<float>(base_y)};
-	Vec2 base_right = {static_cast<float>(x1), static_cast<float>(base_y)};
-	Vec2 base_top = {static_cast<float>(peak_x), static_cast<float>(peak_y)};
-
-	Vec2 tip_left = {static_cast<float>(x0 * 1.5), static_cast<float>(base_y)};
-	Vec2 tip_right = {static_cast<float>(x1 * 0.5), static_cast<float>(base_y)};
-
-	Vec2 tip_top = base_top; 
-
-	drawTriangle(pixels, {base_left, base_top, base_right}, {10, 10, 10, 255}); // dark gray mountains
-	drawTriangle(pixels, {tip_left, tip_top, tip_right}, {0, 0, 0, 255}); // dark gray mountains
-} */
 
 void draw_mountains(uint8_t* pixels, float scroll_x) {
 
@@ -111,7 +121,7 @@ void draw_mountains(uint8_t* pixels, float scroll_x) {
 			{static_cast<float>(gap_left), static_cast<float>(tip_y)},
 			{static_cast<float>((gap_left + gap_right) / 2.0f), static_cast<float>(base_y)}
 		},
-		{10, 10, 10, 255});
+		{30, 30, 30, 255});
 
 	drawTriangle(
 		pixels,
@@ -120,7 +130,7 @@ void draw_mountains(uint8_t* pixels, float scroll_x) {
 			{static_cast<float>(right_x),    static_cast<float>(base_y)},
 			{static_cast<float>((gap_left + gap_right) / 2.0f), static_cast<float>(base_y)}
 		},
-		{10, 10, 10, 255});
+    	{30, 30, 30, 255});
 
 	drawTriangle(
     	pixels,
@@ -129,7 +139,7 @@ void draw_mountains(uint8_t* pixels, float scroll_x) {
     		{static_cast<float>(gap_left),   static_cast<float>(tip_y)},
     		{static_cast<float>(gap_right),  static_cast<float>(tip_y)}//
     	},
-    	{10, 10, 10, 255});
+    	{30, 30, 30, 255});
 }
 
 
@@ -202,6 +212,31 @@ void draw_player(uint8_t *pixels, const Player &player) {
 				pixels[i + 1] = 0; //Green
 				pixels[i + 2] = 0; //Blue
 				pixels[i + 3] = 255; //Alpha
+			}
+		}
+	}
+}
+
+void draw_player_reflection(uint8_t* pixels, const Player& player) {
+	for (int y = 0; y < globals::PLAYER_SIZE; ++y) {
+		for (int x = 0; x < globals::PLAYER_SIZE; ++x) {
+			int px = static_cast<int>(player.getPosX()) + x;
+			int py_original = static_cast<int>(player.getPosY()) + y;
+
+			// Reflect across the floor line (GROUND_HEIGHT)
+			int py_reflect = globals::GROUND_HEIGHT - (py_original - globals::GROUND_HEIGHT);
+
+			// Clamp to stay in floor area
+			if (px >= 0 && px < globals::WIDTH &&
+			    py_reflect >= 0 && py_reflect < globals::GROUND_HEIGHT) {
+
+				int i = (py_reflect * globals::WIDTH + px) * 4;
+
+				// Dimmed color for reflection
+				pixels[i + 0] = 150;  // Red
+				pixels[i + 1] = 0;    // Green
+				pixels[i + 2] = 0;    // Blue
+				pixels[i + 3] = 120;  // Alpha (faded)
 			}
 		}
 	}

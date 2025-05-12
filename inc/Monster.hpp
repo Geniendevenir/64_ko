@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Monster.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adebert <adebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:02:24 by allan             #+#    #+#             */
-/*   Updated: 2025/05/08 16:23:55 by allan            ###   ########.fr       */
+/*   Updated: 2025/05/12 19:38:55 by adebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ struct Body {
 	Rgba eye_color;
 };
 
+struct Health {
+	Vec2 big_rec_start;
+	Vec2 big_rec_end;
+	Rgba big_rec_color;
+
+	Vec2 small_rec_start;
+	Vec2 small_rec_end;
+	Rgba small_rec_color;
+};
+
 class Monster {
 	public:
 	
@@ -52,6 +62,7 @@ class Monster {
 		void setBody(Body body, Vec2 new_pos);
 		
 		void printMonster(GLFWwindow *window, uint8_t *pixels, Vec2 p_pos);
+		void printMonsterReflection(GLFWwindow* window, uint8_t* pixels);
 		
 		void moveTo(Vec2 new_pos);
 		void moveArmTo(Vec2 new_target);
@@ -61,6 +72,8 @@ class Monster {
 		Body _bodyMove;
 		RobotArm _topArm;
 		RobotArm _bottomArm;
+		Health _healthBase;
+		Health _healthMove;
 		/* float _x, _y;
 		float _mouth_openness;
 		float _eye_blink;

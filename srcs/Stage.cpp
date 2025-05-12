@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Stage.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adebert <adebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:50:01 by allan             #+#    #+#             */
-/*   Updated: 2025/05/11 21:12:43 by allan            ###   ########.fr       */
+/*   Updated: 2025/05/12 19:11:37 by adebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ Stage::Stage() {
 
 	_middle.rec_top_start = {static_cast<float>((globals::WIDTH / 2) - 30), 0.0f};
 	_middle.rec_top_end = {static_cast<float>((globals::WIDTH / 2) + 30), static_cast<float>(globals::HEIGHT)};
-	_middle.rec_top_color = {150, 0, 0, 200};
+	_middle.rec_top_color = {200, 200, 200, 200};
 	
 	_middle.rec_right_start = {0.0f, static_cast<float>(globals::GROUND_HEIGHT - 30)};
 	_middle.rec_right_end = {static_cast<float>(globals::WIDTH), static_cast<float>(globals::GROUND_HEIGHT + 30)};
-	_middle.rec_right_color= {150, 0, 0, 200};
+	_middle.rec_right_color= {200, 200, 200, 200};
 
 	return ;
 }
