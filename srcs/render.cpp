@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Globals.cpp                                        :+:      :+:    :+:   */
+/*   render.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 20:29:36 by allan             #+#    #+#             */
-/*   Updated: 2025/05/08 14:22:13 by allan            ###   ########.fr       */
+/*   Created: 2025/05/08 16:38:03 by allan             #+#    #+#             */
+/*   Updated: 2025/05/08 16:39:30 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Globals.hpp"
+#include "Knights.hpp"
 
-namespace globals{
-	const int WIDTH = 800;
-	const int HEIGHT = 600;
-	const int DOT_SIZE = 50;
-	const float DOT_DIST = 100.0f;
-	const int DOT_NBR = 3;
-	const float STEP_SIZE = 5.0f;
-	const int GROUND_HEIGHT = HEIGHT * 0.2 ;
-	const int PLAYER_SIZE = 20;
+void drawFullScreenQuad() {
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0); glVertex2f(-1, -1);
+    glTexCoord2f(1, 0); glVertex2f( 1, -1);
+    glTexCoord2f(1, 1); glVertex2f( 1,  1);
+    glTexCoord2f(0, 1); glVertex2f(-1,  1);
+    glEnd();
+
 }

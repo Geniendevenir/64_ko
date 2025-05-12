@@ -1,33 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.cpp                                         :+:      :+:    :+:   */
+/*   Stage.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 13:49:07 by allan             #+#    #+#             */
-/*   Updated: 2025/05/08 00:01:55 by allan            ###   ########.fr       */
+/*   Created: 2025/05/08 15:44:03 by allan             #+#    #+#             */
+/*   Updated: 2025/05/11 20:55:48 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef STAGE_HPP
+#define STAGE_HPP
+
+#include <string>
+#include <iostream>
+
 #include "Globals.hpp"
-#include <cmath>
+#include "Knights.hpp"
 
-float Vec2::distance(Vec2 a, Vec2 b) {
-	float dx = a.x - b.x;
-	float dy = a.y - b.y;
+struct scene {
+	Vec2 rec_top_start;
+	Vec2 rec_top_end;
+	Rgba rec_top_color;
 	
-	return sqrt(dx * dx + dy * dy);
-}
+	Vec2 rec_right_start;
+	Vec2 rec_right_end;
+	Rgba rec_right_color;
+};
 
-Vec2 offsetVec2(Vec2 v, Vec2 offset) {
-	return { v.x + offset.x, v.y + offset.y };
-}
+class Stage {
+	public:
+		Stage();
+		
+		void printStage(uint8_t *pixels);
 
-Vec3 offsetVec3(Vec3 tri, Vec2 offset) {
-	return {
-		{ tri.v1.x + offset.x, tri.v1.y + offset.y },
-		{ tri.v2.x + offset.x, tri.v2.y + offset.y },
-		{ tri.v3.x + offset.x, tri.v3.y + offset.y }
-	};
-}
+	private:
+		scene _scene;		
+		scene _middle;
+};
+
+#endif

@@ -5,16 +5,23 @@ OBJ_DIR = obj/
 
 # Compiler and Flag
 CXX = g++
-CXXFLAGS = -Os -Wall -Werror -Wextra -I/usr/local/include -I$(INC) 
+CXXFLAGS = -Os -Wall -Wextra -I/usr/local/include -I$(INC) 
 LIBS = -L/usr/local/lib -lGLEW -lglfw -lGL
-NAME = ReverseKinematics
+NAME = Knights
 
 
 #Sources and objects
-SRCS = $(SRC_DIR)main.cpp \
+SRCS = 	$(SRC_DIR)main.cpp \
 		$(SRC_DIR)Globals.cpp \
-		$(SRC_DIR)RobotArm.cpp \
+		$(SRC_DIR)print.cpp \
+		$(SRC_DIR)input.cpp \
+		$(SRC_DIR)Player.cpp \
+		$(SRC_DIR)Monster.cpp \
 		$(SRC_DIR)Vector.cpp \
+		$(SRC_DIR)RobotArm.cpp \
+		$(SRC_DIR)Stage.cpp \
+		$(SRC_DIR)render.cpp \
+
 
 OBJS = $(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRCS))
 
