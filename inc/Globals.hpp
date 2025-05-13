@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Globals.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adebert <adebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 20:28:31 by allan             #+#    #+#             */
-/*   Updated: 2025/05/08 12:42:46 by allan            ###   ########.fr       */
+/*   Updated: 2025/05/13 19:53:13 by adebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,16 @@ struct Rgba {
 	int a;
 };
 
+struct Star {
+	float x, y;
+	float parallax; // 0.1 = slow stars, 1.0 = near stars
+};
+
+enum GamePhase {
+	INTRO,
+	PILLARS,
+	MONSTER,
+	FIGHT
+};
 
 #endif

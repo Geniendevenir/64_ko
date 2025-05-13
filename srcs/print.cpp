@@ -200,53 +200,12 @@ void draw_pillars(c_vector &pixels, float scroll_x) {
 }
 
 
-void draw_player(uint8_t *pixels, const Player &player) {
-	
-	for (int y = 0; y < globals::PLAYER_SIZE; ++y) {
-		for (int x = 0; x < globals::PLAYER_SIZE; ++x) {
-			int px = static_cast<int>(player.getPosX()) + x;
-			int py = static_cast<int>(player.getPosY()) + y;
-			if (px >= 0 && px < globals::WIDTH && py >= 0 && py < globals::HEIGHT) {
-				int i = (py * globals::WIDTH + px) * 4;
-				pixels[i + 0] = 255; //Red
-				pixels[i + 1] = 0; //Green
-				pixels[i + 2] = 0; //Blue
-				pixels[i + 3] = 255; //Alpha
-			}
-		}
-	}
-}
-
-void draw_player_reflection(uint8_t* pixels, const Player& player) {
-	for (int y = 0; y < globals::PLAYER_SIZE; ++y) {
-		for (int x = 0; x < globals::PLAYER_SIZE; ++x) {
-			int px = static_cast<int>(player.getPosX()) + x;
-			int py_original = static_cast<int>(player.getPosY()) + y;
-
-			// Reflect across the floor line (GROUND_HEIGHT)
-			int py_reflect = globals::GROUND_HEIGHT - (py_original - globals::GROUND_HEIGHT);
-
-			// Clamp to stay in floor area
-			if (px >= 0 && px < globals::WIDTH &&
-			    py_reflect >= 0 && py_reflect < globals::GROUND_HEIGHT) {
-
-				int i = (py_reflect * globals::WIDTH + px) * 4;
-
-				// Dimmed color for reflection
-				pixels[i + 0] = 150;  // Red
-				pixels[i + 1] = 0;    // Green
-				pixels[i + 2] = 0;    // Blue
-				pixels[i + 3] = 120;  // Alpha (faded)
-			}
-		}
-	}
-}
 
 //Draw Basics Shapes
 
 void drawRectangle(uint8_t *pixels, Vec2 start, Vec2 end, Rgba color) {
-	for (int y = start.y; y < end.y; y++) {
-		for (int x = start.x; x < end.x; x++) {
+	for (int y = start.y; y <= end.y; y++) {
+		for (int x = start.x; x <= end.x; x++) {
 			if (x >= 0 && x < globals::WIDTH && y >= 0 && y < globals::HEIGHT) {
 				int i = (y * globals::WIDTH + x) * 4;
 				pixels[i + 0] = color.r; //Red
@@ -375,5 +334,13 @@ void draw_number(uint8_t* pixels, int width, int height, int number, int x, int 
         int d = digits[i] - '0';
         draw_digit(pixels, width, height, d, x + i * (digit_width + 1), y, color);
     }
+}
+
+void draw_pixel(uint8_t* pixels, Vec2 coordinate) {
+	int i = (coordinate.y * globals::WIDTH + coordinate.x) * 4;
+	pixels[i + 0] = 0;
+	pixels[i + 1] = 0;
+	pixels[i + 2] = 255;
+	pixels[i + 3] = 255;
 }
 

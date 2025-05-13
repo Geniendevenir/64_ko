@@ -14,12 +14,15 @@
 #include "Knights.hpp"
 #include "Monster.hpp"
 #include "Stage.hpp"
+#include "Player.hpp"
 
 int main() {
     glfwInit();
     GLFWwindow* window = glfwCreateWindow(globals::WIDTH, globals::HEIGHT, "Basics", nullptr, nullptr);
     glfwMakeContextCurrent(window);
     glewInit();
+	glfwSwapInterval(1);
+
 
     GLuint backgroundTex, playerTex, monsterTex, stageTex, crossTex;
     glGenTextures(1, &backgroundTex);
@@ -55,27 +58,30 @@ int main() {
 
 	Player cube("pacman");
 	Monster monster;
-	Stage stage;
+	Stage stage(cube);
 
 	std::vector<Star> stars;
 	std::vector<Star> stars_reflect;
 	initStars(300, stars, stars_reflect);
-	const double frameDuration = 1.0 / 60.0;
+	//const double frameDuration = 1.0 / 60.0;
 	double lastTime = glfwGetTime();
 
     while (!glfwWindowShouldClose(window)) {
 		//60FPS
 		double currentTime = glfwGetTime();
 		double deltaTime = currentTime - lastTime;
-		if (deltaTime < frameDuration) {
+		lastTime = currentTime;
+/* 		if (deltaTime < frameDuration) {
 			continue;
-		}
+		} */
+		if (deltaTime > 0.05) deltaTime = 0.05;
+
 		float star_scroll = currentTime * 50.0f;
 
 		glfwPollEvents();
 		
 		//Action / Calcul
-		handle_input(&window, cube);	
+		handle_input(&window, cube, stage, deltaTime);	
 
 		//Mousse cursor
 		double mouse_x, mouse_y;
@@ -112,9 +118,10 @@ int main() {
 		draw_floor(backgroundPixels);
 		draw_stars(stars_reflect, backgroundPixels.data(), star_scroll);
 		draw_pillars(backgroundPixels, cube.scroll_x);
-
-
-		//stage.printStage(stagePixels.data());	
+		
+		stage.printUpperStage(backgroundPixels.data());
+		stage.centerStage(cube);	
+		stage.printStage(stagePixels.data());	
 		
 		//Monster
 		monster.printMonsterReflection(window, monsterPixels.data());
@@ -126,7 +133,11 @@ int main() {
 		
 		draw_player(playerPixels.data(), cube);
 		draw_player_reflection(playerPixels.data(), cube);
-
+		//draw_pixel(playerPixels.data(), {cube.getPosX() + globals::PLAYER_SIZE - 1, cube.getPosY()});
+		draw_pixel(playerPixels.data(), {cube.getCenterX(), cube.getCenterY()});
+		//draw_pixel(playerPixels.data(), {stage.getUpperStageStart().x, stage.getUpperStageStart().y});
+		stage.playBeatMap(stagePixels.data());
+		stage.updateArrows({cube.getCenterX(), cube.getCenterY()}, deltaTime); 
 
         // Upload to GPU
         glBindTexture(GL_TEXTURE_2D, backgroundTex);
